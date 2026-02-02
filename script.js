@@ -25,11 +25,12 @@ console.log(myLibrary);
 const bookElement = document.querySelector("#library-container");
 
 function displayBook() {
+  bookElement.innerHTML = "";
 myLibrary.forEach(book => {
   const card = document.createElement('div');
-  card.textContent = book.title;
+  card.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
   bookElement.appendChild(card);
 })
 }
 
-console.log(displayBook);
+displayBook();
