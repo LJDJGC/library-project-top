@@ -17,6 +17,19 @@ function addBookToLibrary(title, author, pages, isRead) {
   myLibrary.push(newbook);
 }
 
+
 addBookToLibrary("The Hobbit", "Tolkien", 295, false);
 addBookToLibrary("1984", "George Orwell", 328, true);
 console.log(myLibrary);
+
+const bookElement = document.querySelector("#library-container");
+
+function displayBook() {
+myLibrary.forEach(book => {
+  const card = document.createElement('div');
+  card.textContent = book.title;
+  bookElement.appendChild(card);
+})
+}
+
+console.log(displayBook);
