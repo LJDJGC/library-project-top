@@ -33,4 +33,31 @@ myLibrary.forEach(book => {
 })
 }
 
-displayBook();
+
+const dialog = document.querySelector("#book-dialog");
+const showButton = document.querySelector("#open-dialog");
+const closeButton = document.querySelector("dialog #close-dialog");
+const addButton = document.querySelector("dialog #add-book");
+
+showButton.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+// addを押したら、ここでaddBookToLibrary();を実行するコードを書けばいいということかな。 //
+
+
+FormData.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const title = formData.get('title');
+  const author = formData.get('author');
+  const pages = formData.get('pages');
+  const isRead = formData.get('isRead') === 'on';
+
+  addBookToLibrary(title, author)
+})
