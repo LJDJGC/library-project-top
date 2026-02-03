@@ -6,7 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    <dialog><form action=""></form><input type="text"></dialog>
+    <button id="open-dialog">New Book</button>
+    <dialog id="book-dialog">
+        <form id="book-form">
+            <input type="text">
+            <input type="text">
+            <input type="number">
+            <input type="checkbox">
+            <button type="submit">Add</button>
+            <button type="button" id="close-dialog">Cancel</button>
+        </form>
+    </dialog>
     <div id="library-container"></div>
     <script src="script.js"></script>
 </body>
