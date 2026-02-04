@@ -49,15 +49,21 @@ closeButton.addEventListener("click", () => {
 
 // addを押したら、ここでaddBookToLibrary();を実行するコードを書けばいいということかな。 //
 
+const bookForm = document.querySelector("#book-form");
 
-FormData.addEventListener('submit', (e) => {
+bookForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
-  const title = formData.get('title');
-  const author = formData.get('author');
-  const pages = formData.get('pages');
-  const isRead = formData.get('isRead') === 'on';
 
-  addBookToLibrary(title, author)
-})
+  addBookToLibrary(
+  formData.get('title'),
+  formData.get('author'),
+  Number(formData.get('pages')),
+  formData.get('isRead') === 'on'
+  );
+  displayBook();
+  e.target.reset();
+  dialog.close();
+});
+
