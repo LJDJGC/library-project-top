@@ -10,6 +10,10 @@ function Book(title, author, pages, isRead) {
   this.id = crypto.randomUUID();
 }
 
+Book.prototype.toggleRead = function() {
+  this.isRead = !this.isRead;
+};
+
 function addBookToLibrary(title, author, pages, isRead) {
   // take params, create a book then store it in the array
   const newbook = new Book(title, author, pages, isRead);
@@ -26,18 +30,22 @@ const bookElement = document.querySelector("#library-container");
 
 function displayBook() {
   bookElement.innerHTML = "";
+
 myLibrary.forEach(book => {
   const card = document.createElement('div');
+  card.classList.add('book-card');
   card.dataset.id = book.id;
+  
+  card.appendChild(deleteBtn);
+  bookElement.appendChild(card);
+  card.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
+  bookElement.appendChild(card);
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = "Delete";
   deleteBtn.addEventListener('click', () => {
     removeBook(book.id);
   });
-  card.appendChild(deleteBtn);
-  bookElement.appendChild(card);
-  card.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
-  bookElement.appendChild(card);
+
 });
 }
 
