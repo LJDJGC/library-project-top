@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 function Book(title, author, pages, isRead) {
   // the constructor...
@@ -28,11 +28,23 @@ function displayBook() {
   bookElement.innerHTML = "";
 myLibrary.forEach(book => {
   const card = document.createElement('div');
+  card.dataset.id = book.id;
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = "Delete";
+  deleteBtn.addEventListener('click', () => {
+    removeBook(book.id);
+  });
+  card.appendChild(deleteBtn);
+  bookElement.appendChild(card);
   card.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
   bookElement.appendChild(card);
-})
+});
 }
 
+function removeBook(id) {
+  myLibrary = myLibrary.filter(book => book.id != id);
+  displayBook();
+}
 
 const dialog = document.querySelector("#book-dialog");
 const showButton = document.querySelector("#open-dialog");
