@@ -6,7 +6,6 @@ function Book(title, author, pages, isRead) {
   this.author = author;
   this.pages = pages;
   this.isRead = isRead;
-
   this.id = crypto.randomUUID();
 }
 
@@ -21,31 +20,36 @@ function addBookToLibrary(title, author, pages, isRead) {
   myLibrary.push(newbook);
 }
 
-
-addBookToLibrary("The Hobbit", "Tolkien", 295, false);
-addBookToLibrary("1984", "George Orwell", 328, true);
-console.log(myLibrary);
-
 const bookElement = document.querySelector("#library-container");
 
 function displayBook() {
   bookElement.innerHTML = "";
 
-myLibrary.forEach(book => {
-  const card = document.createElement('div');
-  card.classList.add('book-card');
-  card.dataset.id = book.id;
-  
-  card.appendChild(deleteBtn);
-  bookElement.appendChild(card);
-  card.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
-  bookElement.appendChild(card);
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = "Delete";
-  deleteBtn.addEventListener('click', () => {
-    removeBook(book.id);
-  });
+  myLibrary.forEach(book => {
+    const card = document.createElement('div');
+    card.classList.add('book-card');
+    card.dataset.id = book.id;
+    
+    const info = document.createElement('p');
+    info.textContent = `${book.author}, ${book.pages} pages. Status: ${book.isRead ? "Read" : "Not Read"}`;
+    
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = () => {
+      removeBook(book.id);
+    };
 
+    const toggleBtn = document.createElement('button');
+    toggleBtn.textContent = "Toggle Read Status";
+    toggleBtn.onclick = () => {
+      book.toggleRead();
+      displayBook();
+    };
+
+    card.appendChild(info);
+    card.appendChild(toggleBtn);
+    card.appendChild(deleteBtn);
+    bookElement.appendChild(card);
 });
 }
 
@@ -56,8 +60,9 @@ function removeBook(id) {
 
 const dialog = document.querySelector("#book-dialog");
 const showButton = document.querySelector("#open-dialog");
-const closeButton = document.querySelector("dialog #close-dialog");
-const addButton = document.querySelector("dialog #add-book");
+const closeButton = document.querySelector("#close-dialog");
+const bookForm = document.querySelector("#book-form");
+
 
 showButton.addEventListener("click", () => {
   dialog.showModal();
@@ -69,7 +74,6 @@ closeButton.addEventListener("click", () => {
 
 // addを押したら、ここでaddBookToLibrary();を実行するコードを書けばいいということかな。 //
 
-const bookForm = document.querySelector("#book-form");
 
 bookForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -77,13 +81,15 @@ bookForm.addEventListener('submit', (e) => {
   const formData = new FormData(e.target);
 
   addBookToLibrary(
-  formData.get('title'),
-  formData.get('author'),
-  Number(formData.get('pages')),
-  formData.get('isRead') === 'on'
+    formData.get('title'),
+    formData.get('author'),
+    Number(formData.get('pages')),
+    formData.get('isRead') === 'on'
   );
   displayBook();
   e.target.reset();
   dialog.close();
 });
+
+addBookToLibrary("The Hobbit", "Tolkien", 295, false);
 
