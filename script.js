@@ -92,4 +92,5 @@ bookForm.addEventListener('submit', (e) => {
 });
 
 addBookToLibrary("The Hobbit", "Tolkien", 295, false);
+displayBook();
 
